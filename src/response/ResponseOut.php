@@ -18,7 +18,7 @@ class ResponseOut {
             ob_clean();
         }
         catch(\Exception $e) {
-
+            //do nothing
         }
 
         if($response->getContentType()) {
@@ -26,7 +26,7 @@ class ResponseOut {
                 header('Content-Type: ' . $response->getContentType());
             }
             catch(\Exception $e){
-
+                //do nothing... in unittests it will fail with out try..catch
             }            
         }
 
