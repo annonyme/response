@@ -7,7 +7,7 @@ class Response {
     private $body = '';
     private $downloadFilename = null;
 
-    public function __construct($body, $code = null, $contentType = null) {
+    public function __construct($body = '', $code = null, $contentType = null) {
         $this->body = $body;
         if($code) {
             $this->code = $code;

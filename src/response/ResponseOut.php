@@ -20,13 +20,18 @@ class ResponseOut {
         catch(\Exception $e) {
 
         }
-        
-        if($response->getCode()) {
-            http_response_code((int) $response->getCode());
-        }
 
         if($response->getContentType()) {
-            header('Content-Type: ' . $response->getContentType());
+            try{
+                header('Content-Type: ' . $response->getContentType());
+            }
+            catch(\Exception $e){
+
+            }            
+        }
+
+        if($response->getCode()) {
+            http_response_code((int) $response->getCode());
         }
 
         if($response->getDownloadFilename()) {
@@ -34,14 +39,13 @@ class ResponseOut {
         }
 
         if(isset($this->processors[$response->getContentType()])) {
-            echo $this->processors[$response->getContentType()]($response->getBody());
+            $response->setBody($this->processors[$response->getContentType()]($response->getBody()));
         }
-        else {
-            echo $response->getBody();
-        }        
+        echo $response->getBody();       
 
         if($this->callbackFunction) {
-            $this->callbackFunction();
+            $f = $this->callbackFunction;
+            $f(($response));
         }
         else {
             die();
